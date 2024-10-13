@@ -3,7 +3,7 @@ import pytest
 from src.product import Product
 from src.category import Category
 
-
+#создание fixture
 @pytest.fixture
 def first_product():
     return Product(
@@ -12,9 +12,12 @@ def first_product():
         price=180000.0,
         quantity=5
     )
+
+
 @pytest.fixture
 def product():
     return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+
 
 @pytest.fixture
 def first_category():
@@ -27,9 +30,3 @@ def first_category():
             Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)]
 
     )
-
-'''@pytest.fixture
-def category():
-    return Category("Смартфоны",
-                    "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
-                    [products])'''
