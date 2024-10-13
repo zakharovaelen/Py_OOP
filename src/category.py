@@ -1,5 +1,3 @@
-import json
-
 from src.product import Product
 
 class Category(Product):
@@ -17,6 +15,7 @@ class Category(Product):
         self.products = products if products else 0
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
+
 
 if __name__ == "__main__":
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
