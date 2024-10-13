@@ -1,6 +1,37 @@
-from src.product import Product
+from itertools import product
 
-# создание класса Category
+class Product:
+    pass
+    name: str
+    description: str
+    price: float
+    quantity: int
+
+    def __init__(self, name, description, price, quantity):
+        self.name = name
+        self.description = description
+        self.__price = price
+        self.quantity = quantity
+
+    @classmethod
+    def new_product(cls, name, description, price, quantity):
+        return cls(name, description, price, quantity)
+
+    @property
+    def price(self):
+        price_str = ""
+        for price_str in self.__price:
+            price_str += f"{product.price} руб.\n"
+        return price_str
+
+    @price.setter
+    def price(self, new_price: float):
+        self.__price.append(str(new_price))
+        if new_price < 0:
+            print("Цена не должна быть нулевая или отрицательная")
+            return
+        self.__price = new_price
+
 
 class Category(Product):
     pass
@@ -19,17 +50,20 @@ class Category(Product):
 
 
     @property
-    def products(self):
+    def add_products(self):
         product_str = ""
         for product in self.__products:
             product_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
         return product_str
 
-    @products.setter
+    @add_products.setter
     def products(self, product : Product):
         self.__products.append(product)
         Category.product_count += 1
 
+    @products.setter
+    def products(self):
+        return self.__products
 
 
 if __name__ == "__main__":

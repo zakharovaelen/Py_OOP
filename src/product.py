@@ -1,7 +1,9 @@
-#создание класса Product:
+# создание класса Product:
+from itertools import product
+
+
 class Product:
     pass
-
     name: str
     description: str
     price: float
@@ -10,26 +12,39 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
+
+    @classmethod
+    def new_product(cls, name, description, price, quantity):
+        return cls(name, description, price, quantity)
+
+    @property
+    def price(self):
+        price_float = ""
+        for price_float in self.__price:
+            price_float += f"{product.price} руб.\n"
+        return price_float
+
+    @price.setter
+    def price(self, new_price: float):
+        self.__price.append(str(new_price))
+        if new_price < 0 :
+            print("Цена не должна быть нулевая или отрицательная")
+            return
+        self.__price = new_price
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
-
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
-
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
-
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
+    product = Product.new_product("телефон", "большой и дорогой", "100500", 3)
+    print(product.name)
+    print(product.description)
+    print(product.price)
+    print(product.quantity)
