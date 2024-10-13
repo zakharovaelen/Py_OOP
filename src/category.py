@@ -1,21 +1,22 @@
-from src.Product import Product
+import json
 
+from src.product import Product
 
 class Category(Product):
     pass
 
     name: str
     description: str
-    products: str
+    products: list
     category_count = 0
     product_count = 0
 
-    def __init__(self, name, description, products):
+    def __init__(self, name, description, products=None):
         self.name = name
         self.description = description
-        self.products = products
+        self.products = products if products else 0
         Category.category_count += 1
-        Category.product_count += 1
+        Category.product_count += len(products) if products else 0
 
 if __name__ == "__main__":
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
@@ -29,6 +30,7 @@ if __name__ == "__main__":
     print(category1.name)
     print(category1.description)
     print(len(category1.products))
+    print(category1.products)
     print(category1.category_count)
     print(category1.product_count)
 
