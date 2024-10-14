@@ -1,5 +1,5 @@
 from src.product import Product
-
+#создание класса Category
 class Category(Product):
     pass
 

@@ -1,3 +1,4 @@
+#создание класса Product:
 class Product:
     pass
 

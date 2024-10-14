@@ -3,7 +3,7 @@ import pytest
 from src.product import Product
 from src.category import Category
 
-
+#создание fixture
 @pytest.fixture
 def first_product():
     return Product(
