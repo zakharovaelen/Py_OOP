@@ -1,3 +1,4 @@
+
 class Product:
     pass
     name: str
