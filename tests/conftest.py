@@ -31,3 +31,4 @@ def first_category():
             Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)]
 
     )
+
