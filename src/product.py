@@ -1,4 +1,3 @@
-
 class Product:
 
     name: str
