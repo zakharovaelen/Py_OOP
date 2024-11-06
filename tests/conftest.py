@@ -32,3 +32,14 @@ def first_category():
 
     )
 
+@pytest.fixture
+def products():
+    return ("Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.")
+
+@pytest.fixture
+def add_product():
+    return ("Samsung Galaxy S23 Ultra\n 256GB, Серый цвет, 200MP камера\n 180000.0\n 5")
+
+@pytest.fixture
+def price():
+    return ("Изменять цену? Введите y если да,и n если нет.")

@@ -1,5 +1,6 @@
+
 class Product:
-    pass
+
     name: str
     description: str
     price: float
