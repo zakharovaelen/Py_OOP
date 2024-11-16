@@ -16,8 +16,3 @@ def test_price(price):
 
 def test_category_with_quantity(category_with_quantity):
    assert category_with_quantity == "Cмартфоны, количество продуктов: 27шт"
-
-
-
-
-

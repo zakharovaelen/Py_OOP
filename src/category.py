@@ -1,9 +1,7 @@
-
 from src.product import Product
 
+class Category:
 
-class Category(Product):
-    pass
     name: str
     description: str
     products: list
@@ -25,17 +23,24 @@ class Category(Product):
         return f'{self.name}, количество продуктов: {products_in_stock} шт.'
 
     @property
-    def add_product(self):
+    def products(self):
         product_str = ""
         for product in self.__products:
             product_str += f'{str(product)}\n'
         return product_str
 
-    @add_product.setter
+
     def add_product(self, product: Product):
         self.__products.append(product)
         Category.product_count += 1
 
+
     @property
-    def products(self):
+    def products_list(self):
         return self.__products
+
+
+
+
+
+
