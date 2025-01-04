@@ -1,5 +1,3 @@
-# создание теста для класса Category
-
 def test_category_init(first_category):
     assert first_category.name == "Смартфоны"
     assert first_category.description == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
@@ -15,3 +13,6 @@ def test_new_product(add_product):
 
 def test_price(price):
     assert price == "Изменять цену? Введите y если да,и n если нет."
+
+def test_category_with_quantity(category_with_quantity):
+   assert category_with_quantity == "Cмартфоны, количество продуктов: 27шт"
