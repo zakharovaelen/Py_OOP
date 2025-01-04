@@ -4,6 +4,7 @@ class Product:
     description: str
     price: float
     quantity: int
+    color: str
 
     def __init__(self, name, description, price, quantity):
         self.name = name
