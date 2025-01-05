@@ -17,7 +17,7 @@ def first_product():
 
 @pytest.fixture
 def product():
-    return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    return Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, "Серый")
 
 
 @pytest.fixture
@@ -26,9 +26,9 @@ def first_category():
         name="Смартфоны",
         description="Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
         products=[
-            Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5),
-            Product("Iphone 15", "512GB, Gray space", 210000.0, 8),
-            Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)]
+            Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, "Серый"),
+            Product("Iphone 15", "512GB, Gray space", 210000.0, 8, "Серый"),
+            Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14, "Серый")]
 
     )
 
@@ -60,3 +60,16 @@ def product_with_quantity():
 @pytest.fixture
 def product_count():
     return ("2580000.0")
+
+@pytest.fixture
+def smartphone1():
+    return ("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5,
+                         "S23 Ultra", 256, "Серый")
+
+@pytest.fixture
+def smartphone2():
+    return ("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+
+@pytest.fixture
+def grass():
+    return ("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
