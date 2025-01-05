@@ -7,6 +7,11 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
 
+    def __add__(self, other):
+        if type(other) is LawnGrass:
+            return self.price * self.quantity + other.price * other.quantity
+        raise TypeError
+
 if __name__ == '__main__':
     grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
     grass2 = LawnGrass("Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней", "Темно-зеленый")
@@ -18,3 +23,5 @@ if __name__ == '__main__':
     print(grass1.country)
     print(grass1.germination_period)
     print(grass1.color)
+
+    grass2 + grass1
