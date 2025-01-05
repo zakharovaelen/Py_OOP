@@ -1,6 +1,5 @@
-from itertools import product
-
 from src.product import Product
+from src.exeptions import ZeroPrice
 
 
 class Category:
@@ -18,7 +17,6 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
-
     def __str__(self):
         products_in_stock = 0
         for product in self.__products:
@@ -32,14 +30,21 @@ class Category:
             product_str += f'{str(product)}\n'
         return product_str
 
-
     def add_product(self, product: Product):
         if isinstance(product, Product):
-            self.__products.append(product)
-            Category.product_count += 1
+            try:
+                if product.quantity == 0:
+                    raise ZeroPrice("Нельзя добавить товар с нулевым количеством")
+            except ZeroPrice as e:
+                print(str(e))
+            else:
+                self.__products.append(product)
+                Category.product_count += 1
+                print("Товар добавлен")
+            finally:
+                print("Обработка добавления нового товара прошла успешно")
         else:
             raise TypeError
-
 
     @property
     def products_list(self):
@@ -50,11 +55,3 @@ class Category:
             return sum([product.price for product in self.__products]) / len(self.__products)
         except ZeroDivisionError:
             return 0
-
-
-
-
-
-
-
-
