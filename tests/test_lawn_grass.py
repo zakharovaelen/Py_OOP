@@ -14,6 +14,6 @@ def test_lawn_grass_init(grass1):
 def test_lawn_grass_add(grass1, grass2):
     grass1 + grass2 == 16750.0
 
-def test_lawn_grass_add_error(grass1, grass2):
+def test_lawn_grass_add_error(grass1):
     with pytest.raises(TypeError):
         grass1 + 1
