@@ -1,7 +1,7 @@
 from src.product import Product
 
-class Category:
 
+class Category:
     name: str
     description: str
     products: list
@@ -14,7 +14,6 @@ class Category:
         self.__products = products if products else []
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
-
 
     def __str__(self):
         products_in_stock = 0
@@ -29,7 +28,6 @@ class Category:
             product_str += f'{str(product)}\n'
         return product_str
 
-
     def add_product(self, product: Product):
         if isinstance(product, Product):
             self.__products.append(product)
@@ -37,13 +35,6 @@ class Category:
         else:
             raise TypeError
 
-
     @property
     def products_list(self):
         return self.__products
-
-
-
-
-
-

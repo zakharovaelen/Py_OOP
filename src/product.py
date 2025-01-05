@@ -13,10 +13,8 @@ class Product:
         self.quantity = quantity
         self.color = color
 
-
     def __str__(self):
         return f'{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.'
-
 
     def __add__(self, other):
         if type(other) is Product:

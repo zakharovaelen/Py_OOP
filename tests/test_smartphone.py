@@ -1,6 +1,5 @@
 import pytest
 
-from tests.conftest import products
 
 def test_smartphone_init(smartphone1):
    assert smartphone1.name == "Samsung Galaxy S23 Ultra"
@@ -12,8 +11,10 @@ def test_smartphone_init(smartphone1):
    assert smartphone1.memory == 256
    assert smartphone1.color == "Серый"
 
+
 def test_smartphone_add(smartphone1, smartphone2):
     smartphone1 + smartphone2 == 2580000.0
+
 
 def test_smartphone_add_error(smartphone1):
     with pytest.raises(TypeError):
