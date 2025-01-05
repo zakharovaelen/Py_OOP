@@ -1,7 +1,6 @@
 from src.product import Product
 from src.category import Category
-from src.lawn_grass import LawnGrass
-from src.smartphone import Smartphone
+
 
 if __name__ == '__main__':
     try:
@@ -12,14 +11,14 @@ if __name__ == '__main__':
     else:
         print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
 
-
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, "red")
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8, "red")
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14, "red")
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 9, "red")
 
     category1 = Category("Смартфоны", "Категория смартфонов", [product1, product2, product3])
-    
     print(category1.middle_price())
 
     category_empty = Category("Пустая категория", "Категория без продуктов", [])
     print(category_empty.middle_price())
+
+    product6 = Product("Xiaomi Note 11", "1024GB, Ний", 31000.0, 9, "red")
