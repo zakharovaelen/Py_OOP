@@ -1,3 +1,8 @@
+from src.product import Product
+from src.smartphone import Smartphone
+from src.lawn_grass import LawnGrass
+from src.category import Category
+
 if __name__ == '__main__':
     smartphone1 = Smartphone("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5,
                          "S23 Ultra", 256, "Серый")
@@ -50,7 +55,7 @@ if __name__ == '__main__':
     print(grass2.germination_period)
     print(grass2.color)
 
-    smartphone_sum = smartphone1 + smartphone2
+    """smartphone_sum = smartphone1 + smartphone2
     print(smartphone_sum)
 
     grass_sum = grass1 + grass2
@@ -77,4 +82,4 @@ if __name__ == '__main__':
     except TypeError:
         print("Возникла ошибка TypeError при добавлении не продукта")
     else:
-        print("Не возникла ошибка TypeError при добавлении не продукта")
+        print("Не возникла ошибка TypeError при добавлении не продукта")"""
