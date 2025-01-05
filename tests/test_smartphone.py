@@ -2,7 +2,7 @@ import pytest
 
 from tests.conftest import products
 
-def test_products_init(smartphone1):
+def test_smartphone_init(smartphone1):
    assert smartphone1.name == "Samsung Galaxy S23 Ultra"
    assert smartphone1.description == "256GB, Серый цвет, 200MP камера"
    assert smartphone1.price == 180000.0
@@ -12,9 +12,9 @@ def test_products_init(smartphone1):
    assert smartphone1.memory == 256
    assert smartphone1.color == "Серый"
 
-def test_products_add(smartphone1, smartphone2):
+def test_smartphone_add(smartphone1, smartphone2):
     smartphone1 + smartphone2 == 2580000.0
 
-def test_products_add_error(smartphone1, smartphone2):
+def test_smartphone_add_error(smartphone1, smartphone2):
     with pytest.raises(TypeError):
-    smartphone1 + 1
+        smartphone1 + 1
