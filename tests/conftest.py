@@ -1,5 +1,5 @@
 import pytest
-from docutils.nodes import description
+
 
 from src.product import Product
 from src.category import Category
@@ -94,5 +94,16 @@ def product_without_price():
         description="512GB, Gray space",
         price=0,
         quantity=4,
+        color="Зеленый"
+    )
+
+
+@pytest.fixture
+def product_without_quantity():
+    return Product(
+        name="Samsung Galaxy S23 Ultra",
+        description="512GB, Gray space",
+        price=9,
+        quantity=0,
         color="Зеленый"
     )

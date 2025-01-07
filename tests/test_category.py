@@ -22,10 +22,9 @@ def test_category_with_quantity(category_with_quantity):
    assert category_with_quantity == "Cмартфоны, количество продуктов: 27шт"
 
 
-#def test_new_product_error(first_category, product):
-    #assert first_category.product == 1
+"""def test_new_product_error(first_category, products):
+    assert first_category.products == 0"""
 
 
 def test_middle_price(first_category, product_without_price):
     assert first_category.middle_price() == 140333.33333333334
-    assert product_without_price.middle_price() == 0

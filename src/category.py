@@ -1,5 +1,4 @@
 from src.product import Product
-from src.exeptions import ZeroPrice
 
 
 class Category:
@@ -32,17 +31,8 @@ class Category:
 
     def add_product(self, product: Product):
         if isinstance(product, Product):
-            try:
-                if product.quantity == 0:
-                    raise ZeroPrice("Нельзя добавить товар с нулевым количеством")
-            except ZeroPrice as e:
-                print(str(e))
-            else:
-                self.__products.append(product)
-                Category.product_count += 1
-                print("Товар добавлен")
-            finally:
-                print("Обработка добавления нового товара прошла успешно")
+            self.__products.append(product)
+            Category.product_count += 1
         else:
             raise TypeError
 
