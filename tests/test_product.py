@@ -21,4 +21,4 @@ def test_product_count(product_count):
 
 
 """def test_empty_price(product_without_quantity):
-    assert product_without_quantity == "ValueError: Товар с нулевым количеством не может быть добавлен"""""
+    assert product_without_quantity == "ValueError: Товар с нулевым количеством не может быть добавлен""""poetry show"
