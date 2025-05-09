@@ -1,32 +1,26 @@
-import requests
 import json
+import requests
 from abc import ABC, abstractmethod
 
-
-class JobApi(ABC):
+class VacancyAPI(ABC):
     @abstractmethod
     def fetch_vacancies(self, query):
         pass
 
+class HHruAPI(VacancyAPI):
+    BASE_URL = 'https://api.hh.ru/vacancies'
 
-class HHApi(JobApi):
     def fetch_vacancies(self, query):
-        url = f'https://api.hh.ru/vacancies?text={query}'
-        response = requests.get(url)
+        params = {'text': query, 'area': 113}  # Россия
+        response = requests.get(self.BASE_URL, params=params)
         return response.json().get('items', [])
-
 
 class Vacancy:
     def __init__(self, title, link, salary, description):
         self.title = title
         self.link = link
-        self.salary = salary if salary else 0  # Обработка случая, если salary None
+        self.salary = salary
         self.description = description
-        self.validate()
-
-    def validate(self):
-        if not self.title or not self.link or not self.description:
-            raise ValueError("Недостаточные данные для вакансии")
 
     def __lt__(self, other):
         return self.salary < other.salary
@@ -34,93 +28,87 @@ class Vacancy:
     def __repr__(self):
         return f"{self.title} - {self.salary} - {self.link}"
 
-
 class VacancyStorage(ABC):
     @abstractmethod
-    def save_vacancies(self, vacancies):
+    def add_vacancy(self, vacancy):
         pass
 
     @abstractmethod
-    def load_vacancies(self):
+    def get_vacancies(self, filter_func=None):
         pass
 
     @abstractmethod
-    def delete_vacancy(self, index):
+    def remove_vacancy(self, vacancy):
         pass
 
-
-class JsonVacancyStorage(VacancyStorage):
-    def __init__(self, filename='vacancies.json'):
+class JSONVacancyStorage(VacancyStorage):
+    def __init__(self, filename):
+        self.vacancies = None
         self.filename = filename
-
-    def save_vacancies(self, vacancies):
-        with open(self.filename, 'w', encoding='utf-8') as file:
-            json.dump([vars(v) for v in vacancies], file, ensure_ascii=False, indent=4)
+        self.load_vacancies()
 
     def load_vacancies(self):
         try:
-            with open(self.filename, 'r', encoding='utf-8') as file:
+            with (open(self.filename, 'r', encoding='utf-8') as file):
                 data = json.load(file)
-                return [Vacancy(
-                    title=item.get('title'),
-                    link=item.get('link'),
-                    salary=item.get('salary', 0),  # Установите в 0, если salary отсутствует
-                    description=item.get('description')
-                ) for item in data]
+                self.vacancies = []
+                for item in data:
+                    if isinstance(item, dict) and {"title", "link", "salary", "description"}.issubset(item.keys()):
+                        self.vacancies.append(Vacancy(**item))
+                    else:
+                        print(f"Skipping invalid item: {item}")
         except FileNotFoundError:
-            return []
+            self.vacancies = []
+        except json.JSONDecodeError as e:
+                    print(f"Error reading JSON file: {e}")
+                    self.vacancies = []
 
-    def delete_vacancy(self, index):
-        vacancies = self.load_vacancies()
-        if 0 <= index < len(vacancies):
-            del vacancies[index]
-            self.save_vacancies(vacancies)
+    def save_vacancies(self):
+        with open(self.filename, 'w', encoding='utf-8') as file:
+            json.dump([vars(vacancy) for vacancy in self.vacancies], file, ensure_ascii=False)
 
+    def add_vacancy(self, vacancy):
+        self.vacancies.append(vacancy)
+        self.save_vacancies()
+
+    def get_vacancies(self, filter_func=None):
+        return [vacancy for vacancy in self.vacancies if filter_func is None or filter_func(vacancy)]
+
+    def remove_vacancy(self, vacancy):
+        self.vacancies.remove(vacancy)
+        self.save_vacancies()
 
 def user_interface():
-    api = HHApi()
-    storage = JsonVacancyStorage()
-    vacancies = storage.load_vacancies()
+    storage = JSONVacancyStorage('vacancies.json')
+    api = HHruAPI()
 
     while True:
-        action = input(
-            "Выберите действие: 1- Поиск вакансий, 2- Топ N, 3- Поиск по описанию, 4- Удалить вакансию, 5- Выход: ")
+        print("1. Поиск вакансий")
+        print("2. Топ N вакансий по зарплате")
+        print("3. Вакансии по ключевому слову")
+        print("4. Выход")
+        choice = input("Выберите действие: ")
 
-        if action == '1':
+        if choice == '1':
             query = input("Введите поисковый запрос: ")
-            results = api.fetch_vacancies(query)
+            vacancies_data = api.fetch_vacancies(query)
+            for item in vacancies_data:
+                vacancy = Vacancy(item['name'], item['link'], item['salary']['from'] if item['salary'] else 0, item['snippet']['requirement'])
+                storage.add_vacancy(vacancy)
+            print("Вакансии добавлены.")
 
-            for item in results:
-                salary = item['salary']['from'] if item['salary'] else None
-                vacancy = Vacancy(
-                    title=item['name'],
-                    link=item['alternate_url'],
-                    salary=salary,
-                    description=item['snippet']['requirement']
-                )
-                vacancies.append(vacancy)
+        elif choice == '2':
+            N = int(input("Сколько топ вакансий по зарплате показать? "))
+            top_vacancies = sorted(storage.get_vacancies(), reverse=True)[:N]
+            print(top_vacancies)
 
-            storage.save_vacancies(vacancies)
+        elif choice == '3':
+            keyword = input("Введите ключевое слово: ")
+            filtered_vacancies = storage.get_vacancies(lambda v: keyword.lower() in v.description.lower())
+            print(filtered_vacancies)
 
-        elif action == '2':
-            n = int(input("Введите количество вакансий (N): "))
-            top_vacancies = sorted(vacancies, reverse=True)[:n]
-            for v in top_vacancies:
-                print(v)
-
-        elif action == '3':
-            keyword = input("Введите ключевое слово для поиска: ")
-            filtered_vacancies = [v for v in vacancies if keyword.lower() in v.description.lower()]
-            for fv in filtered_vacancies:
-                print(fv)
-
-        elif action == '4':
-            index = int(input("Введите индекс вакансии для удаления: "))
-            storage.delete_vacancy(index)
-
-        elif action == '5':
+        elif choice == '4':
             break
-
 
 if __name__ == "__main__":
     user_interface()
